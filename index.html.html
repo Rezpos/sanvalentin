@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>San Valentín</title>
+
+<style>
+body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#ffd6e8;
+    font-family:Arial,sans-serif;
+    overflow:hidden;
+}
+
+.heart-bg{
+    position:fixed;
+    font-size:48px;
+    color:#ffd6e8;
+    -webkit-text-stroke:2px black;
+    animation: float 10s linear infinite;
+    opacity:0.35;
+}
+
+@keyframes float{
+    from{transform:translateY(110vh);}
+    to{transform:translateY(-10vh);}
+}
+
+.card{
+    background:white;
+    padding:30px;
+    border-radius:20px;
+    border:3px solid #ff7fb5;
+    box-shadow:0 0 20px rgba(0,0,0,.3);
+    width:320px;
+    text-align:center;
+    position:relative;
+    z-index:2;
+}
+
+h1{
+    color:black;
+    margin-bottom:10px;
+}
+
+img{
+    width:220px;
+    border-radius:15px;
+    border:3px solid black;
+    margin-bottom:15px;
+}
+
+.buttons{
+    position:relative;
+    height:140px;
+    width:100%;
+}
+
+button{
+    position:absolute;
+    font-size:18px;
+    padding:12px 22px;
+    border:none;
+    border-radius:25px;
+    cursor:pointer;
+    color:white;
+    transition:.3s;
+    max-width:140px;
+}
+
+#yes{background:#4CAF50;left:40px;top:40px;z-index:2;}
+#no{background:#f44336;right:40px;top:40px;z-index:1;}
+
+#hint{
+    font-size:15px;
+    color:black;
+    margin-top:70px;
+}
+
+/* Responsive */
+@media (max-width:480px){
+  .card{width:90%;padding:20px;}
+  h1{font-size:22px;}
+  img{width:180px;}
+  button{font-size:16px;padding:10px 18px;}
+  #hint{font-size:14px;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+<h1>¿Quieres ser mi San Valentín? 🥺💖</h1>
+
+<img id="img" src="rosa.png">
+
+<div class="buttons">
+    <button id="yes">SÍ 💚</button>
+    <button id="no">NO ❌</button>
+</div>
+
+<div id="hint">El botón SÍ te está esperando amor 💕</div>
+</div>
+
+<script>
+let scale = 1;
+let count = 0;
+
+const frases = [
+ "porfis…",
+ "presiona el otro botón amor…",
+ "porfiss amor ;c",
+ "segurisimaa?",
+ "amor… ¿y un sí? 💕"
+];
+
+const yes = document.getElementById("yes");
+const no = document.getElementById("no");
+const hint = document.getElementById("hint");
+const img = document.getElementById("img");
+
+no.onclick = () => {
+
+  // crecer el botón SÍ (hasta tapar al NO)
+  scale += 0.2;
+  yes.style.transform = `scale(${scale})`;
+  yes.style.zIndex = 5;
+
+  // cambiar texto
+  hint.textContent = frases[count % frases.length];
+  count++;
+
+  // mostrar ratita triste
+  img.src = "ratita.png";
+
+  // intercambiar posiciones
+  const yesLeft = yes.style.left;
+  const yesRight = yes.style.right;
+
+  yes.style.left = no.style.left;
+  yes.style.right = no.style.right;
+
+  no.style.left = yesLeft;
+  no.style.right = yesRight;
+};
+
+yes.onclick = () => {
+ document.querySelector(".buttons").style.display = "none";
+ hint.style.display = "none";
+ img.src = "corazon.png";
+ document.querySelector("h1").textContent =
+ "Te amo demasiado mi chinita, nos vemos el 17 de febrero amor 💘";
+
+ crearCorazones();
+ crearCorazones();
+};
+
+function crearCorazones(){
+ for(let i=0;i<15;i++){
+  let h=document.createElement("div");
+  h.className="heart-bg";
+  h.textContent="❤";
+  h.style.left=Math.random()*100+"vw";
+  h.style.animationDuration=6+Math.random()*6+"s";
+  document.body.appendChild(h);
+ }
+}
+
+crearCorazones();
+</script>
+
+</body>
+</html>
